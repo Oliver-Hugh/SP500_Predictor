@@ -92,7 +92,7 @@ for z in range(n_gamma):
             decisions[0][y] = 0
         else:
             decisions[0][y] = 1
-        if decisions[0][y] == int(training_data[c_labels][y+1]):
+        if decisions[0][y] == int(training_data[c_labels][y]):
             num_correct += 1
     success[0][z] = num_correct/cols
 

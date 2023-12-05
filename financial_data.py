@@ -42,16 +42,16 @@ def convert_df_to_relative_array(data_frame):
     for i in range(1, n):
         # Percent increase from open to close
         daily_percent_increase = (orig_data[i][adj_c_price] - orig_data[i][open_price])/orig_data[i][open_price]
-        usable_array[i-1][0] = daily_percent_increase
+        usable_array[i-1][0] = daily_percent_increase * 100
 
         # Percent increase from day n to day n - 1
         inter_day_percent_increase = (orig_data[i][adj_c_price] -
                                       orig_data[i-1][adj_c_price])/orig_data[i-1][adj_c_price]
-        usable_array[i-1][1] = inter_day_percent_increase
+        usable_array[i-1][1] = inter_day_percent_increase * 100
 
         # Normalize the volume
         normalized_volume = orig_data[i][volume] / vol_max
-        usable_array[i-1][2] = normalized_volume
+        usable_array[i-1][2] = normalized_volume * 100
 
         # Price Range
         p_range = orig_data[i][high_price] - orig_data[i][low_price]
@@ -106,9 +106,9 @@ def lda2_data(data_frame):
         next_daily_percent_increase = usable_array[j][0]
         # Class Label: Decrease (0) or Increase (1)
         if next_daily_percent_increase >= 0:
-            usable_array[j][3] = 1
+            usable_array[j-1][3] = 1
         else:
-            usable_array[j][3] = 0
+            usable_array[j-1][3] = 0
     """
     daily_percent_increase = 0
     inter_day_percent_increase = 1
@@ -159,9 +159,9 @@ def lda3_data(data_frame):
         next_daily_percent_increase = usable_array[j][0]
         # Class Label: Decrease (0) or Increase (1)
         if next_daily_percent_increase >= 0:
-            usable_array[j][6] = 1
+            usable_array[j-1][6] = 1
         else:
-            usable_array[j][6] = 0
+            usable_array[j-1][6] = 0
     """
     daily_percent_increase = 0
     yesterday_percent_increase = 1

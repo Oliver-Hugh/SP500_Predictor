@@ -72,7 +72,7 @@ wt_x = np.matmul(W, training_data_minus_labels)
 print("min is ", np.min(wt_x))
 print("max is ", np.max(wt_x))
 n_gamma = 300
-gamma = np.linspace(-.002, 0.0001, n_gamma)
+gamma = np.linspace(-.00001, 0.00004, n_gamma)
 decisions = np.zeros((1, cols))
 success = np.zeros((1, n_gamma))
 
@@ -84,14 +84,14 @@ for z in range(n_gamma):
     false_pos_count = 0
     false_neg_count = 0
     num_correct = 0
-    for y in range(cols-1):
+    for y in range(cols):
         xx = training_data_minus_labels[:, y]
         classifier_ratio = wt_x[0][y]
         if classifier_ratio > thresh:
             decisions[0][y] = 0
         else:
             decisions[0][y] = 1
-        if decisions[0][y] == int(training_data[c_labels][y+1]):
+        if decisions[0][y] == int(training_data[c_labels][y]):
             num_correct += 1
     success[0][z] = num_correct/cols
 
