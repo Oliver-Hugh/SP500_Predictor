@@ -34,9 +34,9 @@ def convert_df_to_relative_array(data_frame):
     volume = 5
     orig_data = data_frame.to_numpy()
     n = np.shape(orig_data)[0]
-    usable_array = np.zeros((n-1, 6))
+    usable_array = np.zeros((n-1, 5))
 
-    vol_arr = np.transpose(orig_data[:][5])
+    vol_arr = np.transpose(orig_data[:, 5])
     vol_max = vol_arr.max()
 
     for i in range(1, n):
