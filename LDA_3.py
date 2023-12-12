@@ -29,6 +29,7 @@ for i in range(cols):
         num_increase += 1
 class_0_decrease = np.zeros((6, num_decrease))
 class_1_increase = np.zeros((6, num_increase))
+prior_1 = num_increase / cols
 num_increase = -1
 num_decrease = -1
 for i in range(cols):
@@ -96,11 +97,10 @@ for z in range(n_gamma):
     success[0][z] = num_correct/cols
 
 print("Max success rate is ", max(success[0][:]), " at a threshold of ", gamma[np.argmax(success[0][:])])
+print("Prior is ", prior_1)
 plt.figure()
 plt.plot(gamma, success[0][:], 'ob')
 plt.xlabel("Threshold")
 plt.ylabel("Classification Success Rate")
-plt.title("Linear Discriminant Analysis Attempt 2: S&P500 Increase/Decrease Classifier")
+plt.title("Linear Discriminant Analysis Attempt 3: S&P500 Increase/Decrease Classifier")
 plt.show()
-print(np.shape(class_0_decrease))
-print(np.shape(class_1_increase))

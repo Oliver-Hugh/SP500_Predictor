@@ -19,7 +19,7 @@ training_start = "2012-01-01"
 # training_start = "2022-12-20"
 training_end = "2022-01-01"
 training_data_dataframe = financial_data.get_timeframe_data(training_start, training_end, False)
-training_data = financial_data.convert_df_to_relative_array(training_data_dataframe)
+training_data = financial_data.convert_df_to_relative_array_7_day(training_data_dataframe)
 
 daily_percent_increase = 0
 inter_day_percent_increase = 1
@@ -117,10 +117,10 @@ print("Prior ", inc_prior)
 
 print("Test Data Below")
 # Get the S&P500 data for the specified time frame and assign it to variable df
-test_start = "2022-01-01"
-test_end = "2023-01-01"
+test_start = "2023-09-01"
+test_end = "2023-11-01"
 test_data_dataframe = financial_data.get_timeframe_data(test_start, test_end, False)
-test_data = financial_data.convert_df_to_relative_array(test_data_dataframe)
+test_data = financial_data.convert_df_to_relative_array_7_day(test_data_dataframe)
 
 
 rows, cols = np.shape(test_data)
@@ -206,7 +206,7 @@ for z in range(cols-1):
     elif int(test_data[c_labels][z]) == 0:
         answer = "DECREASE"
     prnt_string = prnt_string + answer
-    print(prnt_string)
+    # print(prnt_string)
     if decisions[0][z] == int(test_data[c_labels][z]):
         num_correct += 1
 

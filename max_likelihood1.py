@@ -62,7 +62,7 @@ xx = np.zeros((1, dimensions))
 xx[0, :] = training_data_minus_labels[:, 0]
 
 n_gamma = 100
-gamma = np.logspace(-2, 4, n_gamma)
+gamma = np.logspace(-2, 1.5, n_gamma)
 decisions = np.zeros((1, cols))
 success = np.zeros((1, n_gamma))
 
@@ -72,9 +72,7 @@ for z in range(n_gamma):
     num_correct = 0
     for y in range(cols-1):
         xx = training_data_minus_labels[:, y]
-
         # Assume Gaussian
-
         # Decrease gaussian likelihood
         decrease_gaussian_factor = (1 / (((2 * math.pi) ** (dimensions / 2)) * math.sqrt(np.linalg.det(cov_dec))))
         diff_dec = xx - mean_dec
@@ -92,20 +90,20 @@ for z in range(n_gamma):
         # P[x | L = 1] / P[x | L = 0]
         classifier_ratio = increase_likelihood / decrease_likelihood
         if classifier_ratio > thresh:
-            decisions[0][y] = 0
-        else:
             decisions[0][y] = 1
+        else:
+            decisions[0][y] = 0
         if decisions[0][y] == int(training_data[c_labels][y]):
             num_correct += 1
     success[0][z] = num_correct/cols
 
 print("Max success rate is ", max(success[0][:]), " at a threshold of ", gamma[np.argmax(success[0][:])])
+print("Prior is ", inc_prior)
 plt.figure()
 plt.plot(gamma, success[0][:], 'ob')
 plt.xlabel("Threshold")
 plt.ylabel("Classification Success Rate")
 plt.title("Maximum Likelihood: S&P500 Increase/Decrease Classifier")
 plt.show()
-print(inc_prior)
-print(np.shape(class_0_decrease))
-print(np.shape(class_1_increase))
+#print(np.shape(class_0_decrease))
+#print(np.shape(class_1_increase))

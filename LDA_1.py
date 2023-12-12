@@ -107,7 +107,6 @@ plt.plot(gamma, success[0][:], 'ob')
 plt.xlabel("Threshold")
 plt.ylabel("Classification Success Rate")
 plt.title("Linear Discriminant Analysis Attempt 1: S&P500 Increase/Decrease Classifier")
-plt.show()
 prior_1 = np.shape(class_1_increase)[1] / cols
-print(prior_1)
-
+print("Prior is ", prior_1)
+plt.show()

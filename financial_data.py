@@ -154,7 +154,6 @@ def lda3_data(data_frame):
         p_range = orig_data[i][high_price] - orig_data[i][low_price]
         usable_array[i-1][5] = p_range
 
-
     for j in range(1, n-1):
         next_daily_percent_increase = usable_array[j][0]
         # Class Label: Decrease (0) or Increase (1)
@@ -172,3 +171,93 @@ def lda3_data(data_frame):
     c_labels = 6
     """
     return np.transpose(usable_array)
+
+
+def convert_df_to_relative_array_7_day(data_frame):
+    # Column index. We will generally just use adj_close_price instead of close_price
+    open_price = 0
+    high_price = 1
+    low_price = 2
+    # close_price = 3
+    adj_c_price = 4
+    volume = 5
+    orig_data = data_frame.to_numpy()
+    n = np.shape(orig_data)[0]
+    usable_array = np.zeros((n-7, 5))
+
+    vol_arr = np.transpose(orig_data[:, 5])
+    vol_max = vol_arr.max()
+
+    for i in range(7, n-7):
+        # Percent increase from open to close
+        daily_percent_increase = (orig_data[i][adj_c_price] - orig_data[i][open_price])/orig_data[i][open_price]
+        usable_array[i-1][0] = daily_percent_increase * 100
+
+        # Percent increase from day n to day n - 1
+        inter_day_percent_increase = (orig_data[i][adj_c_price] -
+                                      orig_data[i-1][adj_c_price])/orig_data[i-7][adj_c_price]
+        usable_array[i-1][1] = inter_day_percent_increase * 100
+
+        # Normalize the volume
+        normalized_volume = orig_data[i][volume] / vol_max
+        usable_array[i-1][2] = normalized_volume * 100
+        # Price Range
+        p_range = orig_data[i][high_price] - orig_data[i][low_price]
+        usable_array[i-1][3] = p_range
+
+    for j in range(1, n - 7):
+        next_daily_percent_increase = usable_array[j][0]
+        # Class Label: Decrease (0) or Increase (1)
+        if next_daily_percent_increase >= 0:
+            usable_array[j][4] = 1
+        else:
+            usable_array[j][4] = 0
+    """
+    daily_percent_increase = 0
+    inter_day_percent_increase = 1
+    normalized_volume = 2
+    p_range = 3
+    c_labels = 4
+    """
+    return np.transpose(usable_array)
+
+
+def kalman_1_get_data(data_frame):
+    close_data = data_frame['Close']
+    size = len(close_data)
+    print("size is ", size)
+    usable_array = np.zeros((size-1, 2))
+    date_lst = []
+    last_close = close_data.iloc[0]
+    for i in range(1, size):
+        date_string = str(data_frame.index[i])
+        date_string = date_string[0:10]
+        # date_lst will be of size "size - 1"
+        date_lst.append(date_string)
+        close = close_data.iloc[i]
+        # Add the current day's closing data
+        usable_array[i-1][0] = close
+        difference = close - last_close
+        usable_array[i-1][1] = difference
+        last_close = close
+    return date_lst, usable_array
+
+def lstm_1_get_data(data_frame):
+    close_data = data_frame['Close']
+    size = len(close_data)
+    print("size is ", size)
+    usable_array = np.zeros((size-1, 2))
+    date_lst = []
+    last_close = close_data.iloc[0]
+    for i in range(1, size):
+        date_string = str(data_frame.index[i])
+        date_string = date_string[0:10]
+        # date_lst will be of size "size - 1"
+        date_lst.append(date_string)
+        close = close_data.iloc[i]
+        # Add the current day's closing data
+        usable_array[i-1][0] = close
+        difference = close - last_close
+        usable_array[i-1][1] = difference
+        last_close = close
+    return date_lst, usable_array

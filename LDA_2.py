@@ -30,6 +30,8 @@ for i in range(cols):
         num_increase += 1
 class_0_decrease = np.zeros((3, num_decrease))
 class_1_increase = np.zeros((3, num_increase))
+
+prior_1 = num_increase / cols
 num_increase = -1
 num_decrease = -1
 for i in range(cols):
@@ -72,8 +74,8 @@ wt_x = np.matmul(W, training_data_minus_labels)
 # used np.min(wt_x) and np.max(wt_x) to get estimates for min and max to create linspace
 print("min is ", np.min(wt_x))
 print("max is ", np.max(wt_x))
-n_gamma = 200
-gamma = np.linspace(-.1, .12, n_gamma)
+n_gamma = 300
+gamma = np.linspace(-.03, .05, n_gamma)
 decisions = np.zeros((1, cols))
 success = np.zeros((1, n_gamma))
 
@@ -97,11 +99,11 @@ for z in range(n_gamma):
     success[0][z] = num_correct/cols
 
 print("Max success rate is ", max(success[0][:]), " at a threshold of ", gamma[np.argmax(success[0][:])])
+print("Prior is ", prior_1)
 plt.figure()
 plt.plot(gamma, success[0][:], 'ob')
 plt.xlabel("Threshold")
 plt.ylabel("Classification Success Rate")
 plt.title("Linear Discriminant Analysis Attempt 2: S&P500 Increase/Decrease Classifier")
 plt.show()
-print(np.shape(class_0_decrease))
-print(np.shape(class_1_increase))
+
