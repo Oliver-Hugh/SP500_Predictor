@@ -98,8 +98,11 @@ for z in range(n_gamma):
             num_correct += 1
     success[0][z] = num_correct/cols
 
-print("Max success rate is ", max(success[0][:]), " at a threshold of ", gamma[np.argmax(success[0][:])])
-print("Prior is ", prior_1)
+#("%.2f" % a)
+
+print("Max success rate is ")
+print("%.4f" % max(success[0][:]), " at a threshold of ", gamma[np.argmax(success[0][:])])
+print("Prior is ", "%.4f" % prior_1)
 plt.figure()
 plt.plot(gamma, success[0][:], 'ob')
 plt.xlabel("Threshold")

@@ -20,6 +20,7 @@ training_start = "2012-01-01"
 training_end = "2022-01-01"
 training_data_dataframe = financial_data.get_timeframe_data(training_start, training_end, False)
 training_data = financial_data.convert_df_to_relative_array_7_day(training_data_dataframe)
+print("Training Data Below")
 
 daily_percent_increase = 0
 inter_day_percent_increase = 1
@@ -112,8 +113,6 @@ print("Success: ", success)
 print("Prior ", inc_prior)
 # print(np.shape(class_0_decrease))
 # print(np.shape(class_1_increase))
-
-
 
 print("Test Data Below")
 # Get the S&P500 data for the specified time frame and assign it to variable df

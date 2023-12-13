@@ -21,6 +21,8 @@ training_end = "2022-01-01"
 training_data_dataframe = financial_data.get_timeframe_data(training_start, training_end, False)
 training_data = financial_data.convert_df_to_relative_array(training_data_dataframe)
 
+print("Training Data Below")
+
 daily_percent_increase = 0
 inter_day_percent_increase = 1
 normalized_volume = 2
@@ -206,7 +208,7 @@ for z in range(cols-1):
     elif int(test_data[c_labels][z]) == 0:
         answer = "DECREASE"
     prnt_string = prnt_string + answer
-    print(prnt_string)
+    #print(prnt_string)
     if decisions[0][z] == int(test_data[c_labels][z]):
         num_correct += 1
 
